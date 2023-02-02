@@ -9,17 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Configure Git
-      run: |
-        git config --global user.email "github-actions@example.com"
-        git config --global user.name "GitHub Actions"
-
-    - name: Add comment to issue
-      uses: peter-evans/create-or-update-comment@v2
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-          hello world
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: 1
+          body: |
+            Hello World
