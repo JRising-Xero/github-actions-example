@@ -1,14 +1,25 @@
-name: Print message on issue creation
+name: Add comment to issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
-  print_message:
+  add_comment:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Print message
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure Git
       run: |
-        echo "hello world"
+        git config --global user.email "github-actions@example.com"
+        git config --global user.name "GitHub Actions"
+
+    - name: Add comment to issue
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          hello world
