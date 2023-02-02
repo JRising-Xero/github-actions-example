@@ -2,24 +2,17 @@ name: Echo GitHub Actions comments
 
 on:
   issues:
-    types: [opened, reopened]
+    types: [closed]
 
 jobs:
   echo_comments:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Get issue comments
-      id: issue_comments
-      run: |
-        comments=$(curl -s https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments?access_token=${{ secrets.GITHUB_TOKEN }})
-        echo ::set-output name=comments::$comments
-
-    - name: Echo GitHub Actions comments
-      run: |
-        echo "Searching for GitHub Actions comments..."
-        comments=$(echo "${{ steps.issue_comments.outputs.comments }}" | jq '.[] | select(.user.login == "github-actions[bot]") | .body')
-        echo "$comments"
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body-includes: hello
+          direction: last
