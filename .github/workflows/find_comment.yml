@@ -16,3 +16,8 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body-includes: hello
           direction: last
+      - run: |
+                echo ${{ steps.fc.outputs.comment-id }}
+                echo ${{ steps.fc.outputs.comment-body }}
+                echo ${{ steps.fc.outputs.comment-author }}
+                echo ${{ steps.fc.outputs.comment-created-at }}
